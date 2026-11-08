@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Your Email - CareerTrack{% endblock %}
+
+{% block content %}
+<section class="auth-container">
+    <div class="auth-card">
+        <h2>Verify Your Email</h2>
+        <br>
+        <br>
+        <p>Your CareerTrack account has been created.</p>
+        <p>We sent a verification link to <strong>{{ email }}</strong>.</p>
+        <p>Please open your inbox and click the link to activate your account.</p>
+        <p>The verification link is valid for 1 hour.</p>
+    <br>
+        <a href="{{ url_for('login') }}" class="btn">Go to Login</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Resend Verification - CareerTrack{% endblock %}
+
+{% block content %}
+<section class="auth-container">
+    <div class="auth-card">
+        <h2>Resend Verification Email</h2>
+        <br><br>
+        <p>Enter the email address you used to register. If your account still
+           needs verification, we'll send you a new verification link.</p>
+
+           <br>
+        {% if message %}
+            <p class="message">{{ message }}</p>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('resend_verification') }}">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email"
+                       placeholder="Enter your registered email"
+                       required>
+            </div>
+            <br>
+            <button type="submit" class="btn">Resend Verification Link</button>
+            <br>
+        </form>
+        <p><a href="{{ url_for('login') }}">Back to Login</a></p>
+    </div>
+</section>
+{% endblock %}

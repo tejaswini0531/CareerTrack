@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Login | CareerTrack{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+    <h2>Welcome Back</h2>
+    <p>Login to manage your job applications.</p>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+
+        <label>Email Address</label>
+        <input type="email" name="email"
+               placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" name="password"
+               placeholder="Enter your password" required>
+
+        <button type="submit">Login</button>
+    </form>
+    <br>
+
+    <p>Don't have an account?
+        <a href="{{ url_for('register') }}">Register</a>
+    </p>
+
+    <br>
+    <p>
+    Didn't receive the verification email?
+    <a href="{{ url_for('resend_verification') }}">
+        Resend Verification Email
+    </a>
+    </p>
+</div>
+
+
+
+
+{% endblock %}

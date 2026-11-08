@@ -1,0 +1,270 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | CareerTrack{% endblock %}
+
+{% block content %}
+
+<section class="dashboard">
+
+    <h1>Welcome to CareerTrack!</h1>
+
+    <p>Hello, {{ session['full_name'] }}!</p>
+    <p>Manage your job applications and track your career progress.</p>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <h3>Total Applications</h3>
+            <h2>{{ stats.total }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Interviews</h3>
+            <h2>{{ stats.interviews }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Offers Received</h3>
+            <h2>{{ stats.offers }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Rejected</h3>
+            <h2>{{ stats.rejected }}</h2>
+        </div>
+
+        <div class="add-application-btn">
+            <a href="{{ url_for('add_application') }}">
+                + Add New Application
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="applications-section">
+
+    <h2>My Job Applications</h2>
+
+    {% if applications %}
+
+    <!-- Search and Filters -->
+
+    <div class="filter-container">
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search company or job role..."
+                onkeyup="filterApplications()"
+            >
+        </div>
+
+        <div class="filter-box">
+
+            <select id="statusFilter" onchange="filterApplications()">
+                <option value="">All Status</option>
+                <option value="Applied">Applied</option>
+                <option value="Interview">Interview</option>
+                <option value="Selected">Selected</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+
+            <select id="jobTypeFilter" onchange="filterApplications()">
+                <option value="">All Job Types</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Internship">Internship</option>
+                <option value="Remote">Remote</option>
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- Applications Table -->
+
+    <div class="applications-table-container">
+
+        <table class="applications-table">
+
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Job Role</th>
+                    <th>Location</th>
+                    <th>Job Type</th>
+                    <th>Applied Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="applicationsTable">
+
+                {% for app in applications %}
+
+                <tr class="application-row">
+
+                    <td class="company-name">
+                        {{ app.company_name }}
+                    </td>
+
+                    <td class="job-role">
+                        {{ app.job_role }}
+                    </td>
+
+                    <td>
+                        {{ app.job_location or 'N/A' }}
+                    </td>
+
+                    <td class="job-type">
+                        {{ app.job_type or 'N/A' }}
+                    </td>
+
+                    <td>
+                        {{ app.application_date or 'N/A' }}
+                    </td>
+
+                    <td class="application-status">
+                        <span class="status-badge">
+                            {{ app.status }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="action-buttons">
+
+                            <a
+                                href="{{ url_for('edit_application', application_id=app.application_id) }}"
+                                class="edit-btn"
+                            >
+                                <span>✎</span> Edit
+                            </a>
+
+                            <form
+                                action="{{ url_for('delete_application', application_id=app.application_id) }}"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this application?');"
+                            >
+
+                                <button type="submit" class="delete-btn">
+                                    <span>🗑</span> Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <p id="noResults" class="empty-message" style="display: none;">
+            No matching applications found.
+        </p>
+
+    </div>
+
+    {% else %}
+
+        <p class="empty-message">
+            No job applications yet. Start tracking your first application!
+        </p>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Search and Filter JavaScript -->
+
+<script>
+
+function filterApplications() {
+
+    const searchValue = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const statusValue = document
+        .getElementById("statusFilter")
+        .value
+        .toLowerCase();
+
+    const jobTypeValue = document
+        .getElementById("jobTypeFilter")
+        .value
+        .toLowerCase();
+
+    const rows = document.querySelectorAll(".application-row");
+
+    let visibleCount = 0;
+
+    rows.forEach(function(row) {
+
+        const company = row
+            .querySelector(".company-name")
+            .textContent
+            .toLowerCase();
+
+        const role = row
+            .querySelector(".job-role")
+            .textContent
+            .toLowerCase();
+
+        const status = row
+            .querySelector(".application-status")
+            .textContent
+            .toLowerCase()
+            .trim();
+
+        const jobType = row
+            .querySelector(".job-type")
+            .textContent
+            .toLowerCase()
+            .trim();
+
+        const matchesSearch =
+            company.includes(searchValue) ||
+            role.includes(searchValue);
+
+        const matchesStatus =
+            statusValue === "" || status === statusValue;
+
+        const matchesJobType =
+            jobTypeValue === "" || jobType === jobTypeValue;
+
+        if (matchesSearch && matchesStatus && matchesJobType) {
+
+            row.style.display = "";
+            visibleCount++;
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+    const noResults = document.getElementById("noResults");
+
+    noResults.style.display = visibleCount === 0 ? "block" : "none";
+}
+
+</script>
+
+{% endblock %}

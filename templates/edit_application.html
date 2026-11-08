@@ -1,0 +1,71 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Application | CareerTrack{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Edit Job Application</h2>
+    <p>Update your job application details.</p>
+
+    <form method="POST"
+          action="{{ url_for('edit_application', application_id=application.application_id) }}">
+
+        <label>Company Name</label>
+        <input type="text" name="company_name"
+               value="{{ application.company_name }}"
+               placeholder="Enter company name" required>
+
+        <label>Job Role</label>
+        <input type="text" name="job_role"
+               value="{{ application.job_role }}"
+               placeholder="Enter job role" required>
+
+        <label>Job Location</label>
+        <input type="text" name="job_location"
+               value="{{ application.job_location or '' }}"
+               placeholder="Enter job location">
+
+        <label>Job Type</label>
+        <select name="job_type">
+            <option value="">Select Job Type</option>
+            <option value="Full-time" {% if application.job_type == 'Full-time' %}selected{% endif %}>Full-time</option>
+            <option value="Internship" {% if application.job_type == 'Internship' %}selected{% endif %}>Internship</option>
+            <option value="Part-time" {% if application.job_type == 'Part-time' %}selected{% endif %}>Part-time</option>
+            <option value="Remote" {% if application.job_type == 'Remote' %}selected{% endif %}>Remote</option>
+        </select>
+
+        <label>Application Date</label>
+        <input type="date" name="application_date"
+               value="{{ application.application_date.strftime('%Y-%m-%d') if application.application_date else '' }}">
+
+        <label>Application Status</label>
+        <select name="status">
+            <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
+            <option value="Interview" {% if application.status == 'Interview' %}selected{% endif %}>Interview</option>
+            <option value="Selected" {% if application.status == 'Selected' %}selected{% endif %}>Selected</option>
+            <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+        </select>
+
+        <label>Interview Date</label>
+        <input type="datetime-local" name="interview_date"
+               value="{{ application.interview_date.strftime('%Y-%m-%dT%H:%M') if application.interview_date else '' }}">
+
+        <label>Job Description</label>
+        <textarea name="job_description"
+                  placeholder="Enter job description">{{ application.job_description or '' }}</textarea>
+
+        <label>Job Link</label>
+        <input type="url" name="job_link"
+               value="{{ application.job_link or '' }}"
+               placeholder="Paste job posting URL">
+
+        <button type="submit">Update Application</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

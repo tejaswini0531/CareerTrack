@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Add Application | CareerTrack{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Add Job Application</h2>
+    <p>Enter the details of the job you applied for.</p>
+
+    <form method="POST" action="{{ url_for('add_application') }}">
+
+        <label>Company Name</label>
+        <input type="text" name="company_name"
+               placeholder="Enter company name" required>
+
+        <label>Job Role</label>
+        <input type="text" name="job_role"
+               placeholder="Enter job role" required>
+
+        <label>Job Location</label>
+        <input type="text" name="job_location"
+               placeholder="Enter job location">
+
+        <label>Job Type</label>
+        <select name="job_type">
+            <option value="">Select Job Type</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Internship">Internship</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Remote">Remote</option>
+        </select>
+
+        <label>Application Date</label>
+        <input type="date" name="application_date">
+
+        <label>Application Status</label>
+        <select name="status">
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Selected">Selected</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+
+        <label>Interview Date</label>
+        <input type="datetime-local" name="interview_date">
+
+        <label>Job Description</label>
+        <textarea name="job_description"
+                  placeholder="Enter job description"></textarea>
+
+        <label>Job Link</label>
+        <input type="url" name="job_link"
+               placeholder="Paste job posting URL">
+
+        <button type="submit">Save Application</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

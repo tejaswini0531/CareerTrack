@@ -1,0 +1,171 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home | CareerTrack{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+
+        <span class="hero-tag">YOUR PERSONAL JOB SEARCH ASSISTANT</span>
+
+        <h1>
+            Take Control of Your
+            <span>Job Search</span>
+        </h1>
+
+        <p>
+            Track your job applications, manage interviews,
+            monitor application status, and organize your
+            career journey in one place.
+        </p>
+
+        <div class="hero-buttons">
+
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="primary-btn">
+                    Go to Dashboard
+                </a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="primary-btn">
+                    Get Started
+                </a>
+            {% endif %}
+
+            <a href="#features" class="secondary-btn">
+                Explore Features
+            </a>
+
+        </div>
+
+        <div class="hero-note">
+            <span>✓</span> Simple to use
+            <span>✓</span> Organized tracking
+            <span>✓</span> Career focused
+        </div>
+
+    </div>
+</section>
+
+
+<section class="features-section" id="features">
+
+    <div class="section-heading">
+        <span class="section-tag">WHAT YOU CAN DO</span>
+        <h2>Everything You Need to Manage Your Job Search</h2>
+        <p>
+            Stay organized and keep track of every opportunity
+            throughout your job search journey.
+        </p>
+    </div>
+
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3>Track Applications</h3>
+            <p>
+                Store and manage all your job applications
+                in one organized dashboard.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3>Manage Interviews</h3>
+            <p>
+                Keep track of interview dates and stay
+                prepared for upcoming opportunities.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Monitor Progress</h3>
+            <p>
+                View application statistics and understand
+                your job search progress.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3>Search and Filter</h3>
+            <p>
+                Quickly find applications using company names,
+                job roles, status and job type.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="how-it-works">
+
+    <div class="section-heading">
+        <span class="section-tag">SIMPLE PROCESS</span>
+        <h2>How CareerTrack Works</h2>
+        <p>
+            Organize your job search in three simple steps.
+        </p>
+    </div>
+
+    <div class="steps-grid">
+
+        <div class="step-card">
+            <div class="step-number">01</div>
+            <h3>Create Your Account</h3>
+            <p>
+                Register and access your personal
+                job application tracking dashboard.
+            </p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">02</div>
+            <h3>Add Applications</h3>
+            <p>
+                Enter company details, job roles,
+                application dates and current status.
+            </p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">03</div>
+            <h3>Track Your Progress</h3>
+            <p>
+                Update application statuses, manage
+                interviews and monitor your progress.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="home-cta">
+
+    <h2>Your Next Opportunity Starts Here!</h2>
+
+    <p>
+        Stay organized, track your applications
+        and take the next step in your career.
+    </p>
+
+    {% if session.get('user_id') %}
+        <a href="{{ url_for('dashboard') }}" class="primary-btn">
+            Open Dashboard
+        </a>
+    {% else %}
+        <a href="{{ url_for('register') }}" class="primary-btn">
+            Create Your Account
+        </a>
+    {% endif %}
+
+</section>
+
+{% endblock %}
